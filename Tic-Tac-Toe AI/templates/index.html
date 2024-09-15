@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe Game</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Tic-Tac-Toe</h1>
+    <div class="status" id="status">Current Player: {{ current_player }}</div>
+    <div class="board-container">
+        <div class="board" id="board"></div>
+    </div>
+    <button onclick="window.location.href='/home'">Home</button>
+    <button class="restart" onclick="restartGame()">Restart Game</button>
+
+    <script>
+        let board = [
+            [' ', ' ', ' '],
+            [' ', ' ', ' '],
+            [' ', ' ', ' ']
+        ]; // Initialize the board with empty spaces
+        let winnerLine = [];
+        const statusElement = document.getElementById('status');
+        const boardElement = document.getElementById('board');
+        const mode = "single-player"; // Set the game mode (e.g., single-player or multi-player)
+
+        function initBoard() {
+            boardElement.innerHTML = '';
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.id = `${i}-${j}`;
+                    cell.innerHTML = board[i][j] !== ' ' ? board[i][j] : '';
+                    cell.addEventListener('click', () => makeMove(i, j));
+                    boardElement.appendChild(cell);
+                }
+            }
+        }
+
+        function updateBoard(newBoard) {
+            board = newBoard;
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    const cell = document.getElementById(`${i}-${j}`);
+                    cell.innerHTML = board[i][j] !== ' ' ? board[i][j] : '';
+                }
+            }
+        }
+
+        function drawWinnerLine(line) {
+            for (let [row, col] of line) {
+                const cell = document.getElementById(`${row}-${col}`);
+                cell.classList.add('win-line');
+            }
+        }
+
+        function makeMove(row, col) {
+            fetch('/move', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ row: row, col: col })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'win') {
+                    statusElement.innerHTML = `${data.winner} wins!`;
+                    updateBoard(data.board);
+                    drawWinnerLine(data.winnerLine);
+                } else {
+                    updateBoard(data.board);
+                    statusElement.innerHTML = `Current Player: ${data.currentPlayer}`;
+                }
+            });
+        }
+
+        function restartGame() {
+            window.location.href = '/restart';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initBoard();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+body {
+    background-color: #f0f0f0; /* light gray background */
+    font-family: Arial, sans-serif;
+    text-align: center; /* center align all elements */
+  }
+  
+  .welcome-container {
+    max-width: 400px;
+    margin: 40px auto; /* center the container */
+    padding: 20px;
+    background-color: #fff; /* white background */
+    border: 1px solid #ddd; /* light gray border */
+    border-radius: 10px; /* rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* subtle shadow */
+  }
+  
+  .welcome-header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .welcome-button {
+    background-color: #4CAF50; /* green button */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .welcome-button:hover {
+    background-color: #3e8e41; /* darker green on hover */
+  }
+  
+  .welcome-button:active {
+    background-color: #3e8e41; /* darker green on click */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* subtle shadow on click */
+  }
