@@ -1,2 +1,1 @@
-# CODSOFT
- It contains all the ai projects I made during the internship
+ It contains all the 3 ai projects I made during the internship
